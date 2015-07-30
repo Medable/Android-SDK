@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.medable.AndroidSDK</groupId>
+  <artifactId>AndroidSDK</artifactId>
+  <version>0.0.7</version>
+  <versioning>
+    <versions>
+      <version>0.0.7</version>
+    </versions>
+    <lastUpdated>20150730180355</lastUpdated>
+  </versioning>
+</metadata>
