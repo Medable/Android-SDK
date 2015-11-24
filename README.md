@@ -80,6 +80,10 @@ ContentDownloader.checkForDownloads(new FaultCallback()
         // handle fault if necessary
     }
 });
+
+// And listen for the related notifications
+Constants.kContentDownloadedDidStartDownloads
+Constants.kContentDownloadedDidFinishDownloads
 ```
 
 ### GCM Notifications manager
