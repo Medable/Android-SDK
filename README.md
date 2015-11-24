@@ -100,7 +100,7 @@ GCMManager.Builder
         .build();
 ```
 
-### Handling particular events by listening to notifications.
+### Handling particular events by listening to (local, not GCM) notifications.
 
 There's a _NotificationCenter_ class that post API notifications you could use to hook to certain events. The notifications are defined in _com.medable.AndroidSDK.Constants_.
 
