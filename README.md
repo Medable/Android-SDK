@@ -5,13 +5,13 @@
 Add the following repository.
 
 ```groovy
-    defaultConfig {
-        ...
+defaultConfig {
+    ...
 
-        repositories {
-            maven { url "https://github.com/Medable/Android-SDK/raw/master/" }
-        }
+    repositories {
+        maven { url "https://github.com/Medable/Android-SDK/raw/master/" }
     }
+}
 ```
 
 Add the following dependency.
