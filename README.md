@@ -25,7 +25,7 @@ Add the following dependency.
 
 ```groovy
 dependencies {
-    compile 'com.medable:AndroidSDK:0.1.+'    // or use the last version number instead of 0.1.+
+    compile 'com.medable:AndroidSDK:1.0.+'    // or use the last release version number instead.
 }
 ```
 
