@@ -57,7 +57,7 @@ APIClient.Builder
         });
 ```
 
-There are some optional configuratio parameters on the _APIClient.Builder_ builder class. 
+There are some optional configuration parameters on the _APIClient.Builder_ builder class. 
 For example to change the log level you need to use this builder parameter:
 ```java
 .logLevel(APIClient.LogLevel.HEADERS_AND_ARGS)
@@ -65,7 +65,7 @@ For example to change the log level you need to use this builder parameter:
 
 ### Content Downloader
 
-There is a class that downloads information needed for the proper function of the SDK; like the Org's bundle information or all the definitions for the Org's objects. The default behavior is to automatically download that information when the _APIClient_ singleton is initializing. But if you need to make these downloads happen elsewhere in your app, you can turn that off and call the proper method when needed. Just make sure to get the info before any Medable related operation.
+There is a class that downloads the SDK's config data, needed for its proper function; this data includes, for example, the Org's bundle information, all schemas that define the Org's objects. The default behavior is to automatically download that information when the _APIClient_ singleton is initializing. But if you need to make these downloads happen elsewhere in your app, you can turn that off and call the proper method when needed. Just make sure to get the info before any Medable related operation.
 
 ```java
 // add this when calling APIClient.Builder...
@@ -78,6 +78,8 @@ ContentDownloader.checkForDownloads(new FaultCallback()
     public void call(Fault fault)
     {
         // handle fault if necessary
+        
+        // if no fault then the Medable SDK is ready to be used
     }
 });
 
@@ -252,7 +254,7 @@ That image is saved in an encrypted cache on disk, which works on a per user bas
 ### How do I use the SDK to manage <a href="https://dev.medable.com/#custom-objects" target="_blank">custom objects</a>?
 ```java
 // Let's suppose you have a custom object named 'c_aCustomObject', with a string property called 'c_aCustomProp1' and a number property called 'c_aCustomProp2'
-// in addition to the base properties, inherited from MDObjectInstance, which is the base class for all objects.
+// in addition to the base properties, inherited from ObjectInstance, which is the base class for all objects.
 
 // Get its definition
 ObjectDefinition aCustomObjectDefinition = SchemaManager.sharedInstance().getDefinition("c_aCustomObject");
@@ -291,17 +293,32 @@ PostCommentDefinition commentDefinition = postDefinition.getCommentDefinition();
 // definitions. Let's say we want to modify an instance of this custom object of type 'c_aCustomObject'.
 ObjectInstance aCustomObjectInstance;
 
-Map<String, Object> body = new HashMap<>();
-body.put(aCustomProp1Definition.getName(), "a string value for prop 1");
-body.put(aCustomProp2Definition.getName(), 7);
+// The following code uses convenience body helper classes and methods to build up the request body easily and properly
+SimpleBodyProperty aCustomProp1 = new SimpleBodyProperty(aCustomProp1Definition, "a string value for prop 1");
+SimpleBodyProperty aCustomProp2 = new SimpleBodyProperty(aCustomProp2Definition, 7);
 
-FileAttachments fileAttachments;
+/*
+    Other examples of body helper classes are:
+
+    ArrayBodyProperty - used for Array properties (propDefinition.isArray() == true). Not that any propDefinition.getType() could be an array.
+    DocumentBodyProperty - used for Document properties.
+    FileBodyProperty - used for File properties (media attachments).
+
+    SimpleBodyProperty - used for all the rest of the properties, other than the above mentioned.
+
+    All of the above receive a property definition to perform parameter and data checks.
+    If you know the object's structure and want a "fast way" of doing things, there is a FastBodyProperty that receives the json you want to send.
+    The only limitation is that you can't add File attachments to FastBodyProperty(s).
+ */
+
+Body body = new Body();
+body.addProperty(aCustomProp1);
+body.addProperty(aCustomProp2);
 
 APIClient.sharedInstance().updateObject(
         aCustomObjectInstance.getObject().pluralNameForAPICalls(),
         aCustomObjectInstance.getId(),
         body,
-        fileAttachments,
         new ObjectFaultCallback<ObjectInstance>()
         {
             @Override
@@ -327,10 +344,10 @@ APIClient.sharedInstance().updateObject(
 ##### Sample code
 ```java
 /*
-   - In this case, let's suppose we have an object whose feed definition consists of posts of type "c_post".
-   - Each "c_post" has two body segments called "c_text" --of type String, and "c_image" --of type File[], that is, an array of File objects.
-   - Each File object is composed by four facets, called "c_original", "c_overlay", "c_thumbnail" and "c_content".
-   - There are two facet processors, that take "c_original" and "c_overlay" as inputs and produce "c_content" --the original image with the overlay included, and "c_thumbnail" --a reduced version of "c_content".
+    - In this case, let's suppose we have an object whose feed definition consists of posts of type "c_post".
+    - Each "c_post" has two body segments called "c_text" --of type String, and "c_image" --of type File[], that is, an array of File objects.
+    - Each File object is composed by four facets, called "c_original", "c_overlay", "c_thumbnail" and "c_content".
+    - There are two facet processors, that take "c_original" and "c_overlay" as inputs and produce "c_content" --the original image with the overlay included, and "c_thumbnail" --a reduced version of "c_content".
 */
 
 // Let's create a post with a message saying "Hi, this is a post with text and images", and two images, one with overlay and one without overlay.
@@ -358,21 +375,20 @@ FeedDefinition feedDefinition = contextObject.getObject().getFeedDefinition();
 // Get the post's definition
 PostDefinition postDefinition = feedDefinition.postDefinitionWithType("c_post");
 
-List<PostSegmentStub> postSegments = new LinkedList<>();
-FileAttachments attachments = new FileAttachments();
+PostBody body = new PostBody();
 
 for (PostSegmentDefinition segmentDefinition : postDefinition.getBody())
 {
     // Configure the Text segment
     if (segmentDefinition.getName().equals("c_text") && text.length() > 0)
     {
-        PostSegmentStub textSegment = new PostSegmentStub("c_text");
-
         // Get the post segment property definition
-        textSegment.addProperty("c_text", text);
+        PostSegmentPropertyDefinition segmentPropDef = segmentDefinition.propertyWithName("c_text");
+
+        SimpleBodyProperty textSegment = new SimpleBodyProperty(segmentPropDef, text);
 
         // Add the post body's text segment
-        postSegments.add(textSegment);
+        body.addProperty("c_text", textSegment);
     }
 
     // Configure the Image segment
@@ -381,19 +397,21 @@ for (PostSegmentDefinition segmentDefinition : postDefinition.getBody())
         // Get the post segment property's definition
         PostSegmentPropertyDefinition propertyDefinition = segmentDefinition.propertyWithName("c_image");
 
-        PostSegmentStub imagesSegment = new PostSegmentStub(segmentDefinition.getName());
+        FileBodyProperty faceAttachment = new FileBodyProperty(propertyDefinition);
 
         // It's an array of Files... In this case, we have 2 attachments
-        Attachment faceAttachment = new Attachment(propertyDefinition);
         faceAttachment.addFacetAttachment("c_original", "image/jpeg", faceImage);
         faceAttachment.addFacetAttachment("c_overlay", "image/png", faceOverlay);
 
-        Attachment chestAttachment = new Attachment(propertyDefinition);
+        FileBodyProperty chestAttachment = new FileBodyProperty(propertyDefinition);
         chestAttachment.addFacetAttachment("c_original", "image/jpeg", chestImage);
-        
-        // Add the attachments to the container (FileAttachments)
-        attachments.addAttachment(faceAttachment);
-        attachments.addAttachment(chestAttachment);
+
+        // Add the attachments to the container (an array property representation object)
+        ArrayBodyProperty attachments = new ArrayBodyProperty(propertyDefinition);
+        attachments.addProperty(faceAttachment);
+        attachments.addProperty(chestAttachment);
+
+        body.addProperty(attachments);
     }
 }
 
@@ -401,8 +419,7 @@ APIClient.sharedInstance().postToObject(
         contextObject.getObject().pluralNameForAPICalls(),
         contextObject.getId(),
         "c_post",
-        postSegments,
-        attachments,
+        body,
         null,
         null,
         new ObjectFaultCallback<Post>()
