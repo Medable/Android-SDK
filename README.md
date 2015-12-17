@@ -451,3 +451,7 @@ Besides that, required parameters are checked at runtime. If something is wrong,
 In general, LocalFault objects are used to inform the user about error that are not related to the API server (Fault objects are used for this), or when some API unrelated network issue was detected.
 
 You can handle such notifications as described above in the "Handling particular events by listening to notifications" section.
+
+
+### More information
+For more technical information, check the [SDK Information markdown](https://github.com/Medable/Android-SDK/blob/master/SDK%20Information.md).
