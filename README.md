@@ -31,6 +31,22 @@ dependencies {
 
 Synch Gradle, and you're set!
 
+### Manifest & permissions
+As of permissions present in the SDK's _manifest_ file, here is a list:
+
+```xml
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.medable.AndroidSDK.permission.C2D_MESSAGE"/>
+```
+
 ## Code setup
 
 ### Initialization of the _APIClient_ class
