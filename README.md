@@ -452,7 +452,7 @@ APIClient.sharedInstance().postToObject(
 );
 ```
 
-### Why can't I mod an object instance? why is that there are no setters?
+### Why can't I mod an object instance? Why are there are no setters?
 
 All the modifications need to go through the api, and then you need to synchronize your object instance. This is to make it easier to avoid inconsistences between the client and the api.
 That’s why all the modifications are done through APIClient object modification methods.
