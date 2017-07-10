@@ -2,9 +2,9 @@
 
 ## About the Medable SDK
 
-Welcome to the Android Client SDK for [Medable](https://www.medable.com). This library provides a wrapper for the [Medable API](https://dev.medable.com/) as well as several helper tools to directly integrate those features to your Android application.
+Welcome to the Android Client SDK for [Medable](https://www.medable.com). This library provides a wrapper for the [Medable API](https://dev.medable.com/) as well as several helper tools to directly integrate those features into your Android application.
 
-The Medable Android SDK is targeted to be used in apps that have a _minSdkVersion_ at 14 and the following instructions are targeted for Android Studio users, consider updating if you have an older version.
+The Medable Android SDK is targeted to be used in apps that have a _minSdkVersion_ of 14 and the following instructions are targeted for Android Studio users. Consider updating if you have an older version.
 
 ## Integration steps
 
@@ -29,10 +29,10 @@ dependencies {
 }
 ```
 
-Synch Gradle, and you're set!
+Sync Gradle, and you're set!
 
 ### Manifest & permissions
-As of permissions present in the SDK's _manifest_ file, here is a list:
+As for permissions present in the SDK's _manifest_ file, here is a list:
 
 ```xml
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -51,8 +51,8 @@ As of permissions present in the SDK's _manifest_ file, here is a list:
 
 ### Initialization of the _APIClient_ class
 
-This _APIClient_ class is a singleton and has convenience methods used to communicate with Medable servers. 
-The first thing to do is to configure the singleton instance. For that, what's needed is a base URL, an Org and an App created on a Medable server.
+This _APIClient_ class is a singleton and has convenience methods used to communicate with Medable servers.
+The first thing to do is to configure the singleton instance. For that, what's needed is a base URL, an Org, and an App created on a Medable server.
 
 ```java
 APIClient.Builder
@@ -73,8 +73,8 @@ APIClient.Builder
         });
 ```
 
-There are some optional configuration parameters on the _APIClient.Builder_ builder class. 
-For example to change the log level you need to use this builder parameter:
+There are some optional configuration parameters in the _APIClient.Builder_ builder class.
+For example, to change the log level you need to use this builder parameter:
 ```java
 .logLevel(APIClient.LogLevel.HEADERS_AND_ARGS)
 ```
@@ -94,7 +94,7 @@ ContentDownloader.checkForDownloads(new FaultCallback()
     public void call(Fault fault)
     {
         // handle fault if necessary
-        
+
         // if no fault then the Medable SDK is ready to be used
     }
 });
@@ -106,11 +106,11 @@ Constants.kContentDownloadedDidFinishDownloads
 
 ### GCM Notifications manager
 
-On the SDK, there's a _GCMManager_ class that takes care of the registration of your app on GCM servers for you. All the notifications sent from Medable servers to your app will be received and stored by this manager.
+In the SDK, there's a _GCMManager_ class that takes care of the registration of your app on GCM servers for you. All the notifications sent from Medable servers to your app will be received and stored by this manager.
 
-As you may now, to be able to receive Google Cloud Messaging notifications, you need to first configure your project on the [Google Developer Console](https://console.developers.google.com/), and get a Sender ID for your project.
+As you may know, to be able to receive Google Cloud Messaging notifications, you need to first configure your project in the [Google Developer Console](https://console.developers.google.com/), and get a Sender ID for your project.
 
-Then configure the _GCMManager_ singleton class, like this: 
+Then configure the _GCMManager_ singleton class like this:
 ```java
 GCMManager.Builder
         .applicationContext(aContext)
@@ -124,11 +124,11 @@ There's a _NotificationCenter_ class that post API notifications you could use t
 
 kMDNotificationAPIServerErrorDidOccur: This notification comes with the corresponding Fault object, ready to be handled. Fault codes are defined in _com.medable.AndroidSDK.Constants_.
 
-kMDNotificationUserDidLogout: This notification is used to forward the app to the login screen. This notification is thrown when the user logs out, or when API session is over because of an error or session timeout.
+kMDNotificationUserDidLogout: This notification is used to forward the app to the login screen. This notification is thrown when the user logs out, or when the API session is over because of an error or session timeout.
 
 To listen to a particular notification, you need to add an observer for that notification. Like this:
 ```java
-// listens for sucessfull upload operations
+// listens for successful upload operations
 
 NotificationCenter.defaultCenter().registerObserver(this, Constants.kMDNotificationUploadOperationEndedSuccessfully, new BroadcastReceiver()
 {
@@ -154,7 +154,7 @@ conversation.imagesWithCallback(new PicsUpdateCallbackBlock()
     {
         if (null == fault && null != bitmap)
         {
-            
+
         }
     }
 });
@@ -170,7 +170,7 @@ account.thumbnailWithCallback(new BitmapCallbackBlock()
     {
         if (null == fault && null != bitmap)
         {
-            
+
         }
     }
 });
@@ -186,7 +186,7 @@ connection.thumbnailWithCallback(new BitmapCallbackBlock()
     {
         if (null == fault && null != bitmap)
         {
-            
+
         }
     }
 });
@@ -207,7 +207,7 @@ conversation.synchronizeObjectWithParameters(
             @Override
             public void call(Conversation object, Fault fault)
             {
-                
+
             }
         }
 );
@@ -223,7 +223,7 @@ account.synchronizeConnections(
             @Override
             public void call(ObjectInstance updatedAccount, Fault fault)
             {
-                
+
             }
         }
 );
@@ -239,7 +239,7 @@ account.synchronizePosts(
             @Override
             public void call(ObjectInstance updatedAccount, Fault fault)
             {
-                
+
             }
         });
 ```
@@ -260,7 +260,7 @@ AssetManager.sharedInstance().saveImage(
             @Override
             public void call(boolean success)
             {
-                
+
             }
         }
 );
