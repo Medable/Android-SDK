@@ -2,6 +2,11 @@
 
 ### Change log
 
+#### v1.1.3
+
+- Logging api calls with FULL flags now works properly.
+- Bug fixes and improvements.
+    
 #### v1.1.2
 
 - Added a failsafe for NumberPropertyInstance.
