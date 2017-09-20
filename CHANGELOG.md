@@ -2,6 +2,11 @@
 
 ### Change log
 
+#### v1.1.4
+
+- Added support for additional date format.
+- Bug fixes
+
 #### v1.1.3
 
 - Logging api calls with FULL flags now works properly.
