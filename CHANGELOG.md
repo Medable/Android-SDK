@@ -2,6 +2,17 @@
 
 ### Change log
 
+#### v1.1.5
+
+- APIParameters - Improved the way parameters are constructed.
+- APIParameters - Added support for query operators:
+   - Comparison Operators
+   - Logical Operators
+   - Evaluation Operators
+   - Array Operators
+- APIClient - Added a way to download a file by path.
+- Bug fixes and improvements.
+
 #### v1.1.4
 
 - Added support for additional date format.
