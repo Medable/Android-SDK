@@ -2,6 +2,12 @@
 
 ### Change log
 
+#### v1.1.6
+
+- `APIClient` - Handle Faults in HTTP successful callbacks.
+- `BaseDefinition` - Added support for sub-classes / type objects properties.
+- Bug fixes and improvements.
+
 #### v1.1.5
 
 - APIParameters - Improved the way parameters are constructed.
