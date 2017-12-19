@@ -3,6 +3,11 @@
 
 ### Change log
 
+#### v1.1.8
+
+- Bug fixes and improvements.
+- `APIClient` - Added public getters for base URL, app key and org name.
+
 #### v1.1.7
 
 - **Context Class Registration**: Added support for context class registration.
