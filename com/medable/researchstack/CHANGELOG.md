@@ -2,6 +2,12 @@
 
 ### Change log
 
+#### v1.0.5
+
+- Removed Back button from first step of tasks.
+- Added Cancel button to allow users to end tasks without having to back all the way out.
+- Bug fixes & improvements.
+
 #### v1.0.4
 
 - Added support to print consents to pdf.
