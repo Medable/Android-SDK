@@ -1,7 +1,11 @@
 # Cortex for Android
----
 
-### Change log
+#### v1.1.9
+
+- `AssetUploader` - Notifies about file upload progress through a notification called `kMDNotificationUploadOperationProgress`. The notification object is a Bundle and contains the filename and progress keyed with Constant.kFilename (String) and Constant.kProgress (float).
+- `FileUpload` - Supports serialization.
+- `FileBodyProperty` - Improved filename generation. Introduced a mime type to file extension map.
+- Bug fixes and improvements.
 
 #### v1.1.8
 
