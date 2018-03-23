@@ -1,5 +1,9 @@
 # Cortex for Android
 
+#### v1.1.13
+
+- Bug fixes and improvements.
+
 #### v1.1.12
 
 - Bug fixes and improvements.
